@@ -21,7 +21,6 @@ class VideoManager
     {
         $client = new Client(['base_uri' => 'https://www.googleapis.com']);
 
-        dump($date->format('d.m.Y'));
         try {
             $request = $client->get('/youtube/v3/search', [
                 'query' => [

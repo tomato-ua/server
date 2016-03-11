@@ -14,3 +14,9 @@
 !var/SymfonyRequirements.php
 /vendor/
 /web/bundles/
+/node_modules/
+/bower_components/
+/web/js/
+/web-src/scss/*.css
+/web-src/scss/*.css.map
+!/web-src/scss/*.scss
