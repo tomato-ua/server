@@ -57,7 +57,7 @@ class Stenography
     private $tags;
 
     /**
-     * @ORM\OneToOne(targetEntity="Video", mappedBy="Stenography")
+     * @ORM\OneToOne(targetEntity="Video", mappedBy="stenography")
      */
     private $video;
 
