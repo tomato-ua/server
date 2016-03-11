@@ -54,6 +54,13 @@ class Video
     private $stenography;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="tagged", type="boolean")
+     */
+    private $tagged;
+
+    /**
      * Get id
      *
      * @return int
@@ -73,7 +80,6 @@ class Video
     public function setYoutubeId($youtubeId)
     {
         $this->youtubeId = $youtubeId;
-
         return $this;
     }
 
@@ -198,5 +204,29 @@ class Video
     public function getStenography()
     {
         return $this->stenography;
+    }
+
+    /**
+     * Set tagged
+     *
+     * @param \bool $tagged
+     *
+     * @return Video
+     */
+    public function setTagged(bool $tagged)
+    {
+        $this->tagged = $tagged;
+
+        return $this;
+    }
+
+    /**
+     * Get tagged
+     *
+     * @return boolean
+     */
+    public function getTagged()
+    {
+        return $this->tagged;
     }
 }
