@@ -40,8 +40,7 @@ class ImporterCommand extends ContainerAwareCommand
             foreach ($node->childNodes as $child) {
                 if ($child->nodeName == 'span') {
                     $date = new \DateTime();
-                    $date->createFromFormat('d.m.Y', $child->textContent);
-                    $data[$key]['date'] = $date;
+                    $data[$key]['date'] = $date->createFromFormat('d.m.Y', $child->textContent);
                 }
                 if ($child->nodeName == 'h4') {
                     $data[$key]['title'] = $child->textContent;
@@ -55,9 +54,7 @@ class ImporterCommand extends ContainerAwareCommand
             }
         }
 
-
         foreach ($data as $item) {
-
             $s = new Stenography();
             $s->setTitle($item['title']);
             $s->setEventDate($item['date']);
