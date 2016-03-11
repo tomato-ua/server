@@ -1,6 +1,9 @@
 <?php
 
 
+date_default_timezone_set("Europe/Kiev");
+
+
 if (isset($argv['1'])) {
     $my_id = $argv['1']; // 'bKSsDQ8HHFs';
 } else {
@@ -50,7 +53,6 @@ function parseImages()
             if($progres>4){
 
                 $date = new \DateTime();
-
                 $date->setTime($hh,$mm);
 
                 $date->modify('-'.$offset.' min');
@@ -62,11 +64,6 @@ function parseImages()
     }
 }
 
-
-parseImages();
-
-
-date_default_timezone_set("Europe/Kiev");
 
 // сергвй антоненко - рада
 
