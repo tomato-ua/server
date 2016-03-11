@@ -4,6 +4,20 @@ parameters:
 #    parameter_name: value
 
 services:
-#    service_name:
-#        class: AppBundle\Directory\ClassName
-#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+    youtube:
+        class: AppBundle\Manager\VideoManager
+        arguments:
+            - "%google_api_key%"
+    youtube_command:
+        class: AppBundle\Command\YoutubeCommand
+        calls:
+            - [setDoctrine, ["@doctrine"]]
+            - [setYoutube, ["@youtube"]]
+        tags:
+            - { name: console.command }
+    steno_command:
+        class: AppBundle\Command\ImporterCommand
+        calls:
+            - [setDoctrine, ["@doctrine"]]
+        tags:
+            - { name: console.command }

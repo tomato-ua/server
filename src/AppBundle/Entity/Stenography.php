@@ -2,7 +2,10 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * Stenography
@@ -12,6 +15,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Stenography
 {
+    use TimestampableEntity;
+
     /**
      * @var int
      *
@@ -22,13 +27,6 @@ class Stenography
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="url", type="string", length=255)
-     */
-    private $url;
-
-    /**
      * @var \DateTime
      *
      * @ORM\Column(name="eventDate", type="datetime")
@@ -36,31 +34,37 @@ class Stenography
     private $eventDate;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="title", type="string", length=255)
-     */
-    private $title;
-
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="uniqueId", type="string", length=255, unique=true)
-     */
-    private $uniqueId;
-
-
-    /**
+     * @var Collection
      * @ORM\OneToMany(targetEntity="Tag", mappedBy="video", cascade={"remove","persist"})
      */
     private $tags;
 
     /**
-     * @ORM\OneToOne(targetEntity="Video", mappedBy="stenography")
+     * @var Collection
+     * @ORM\OneToMany(targetEntity="Video", mappedBy="stenography")
      */
-    private $video;
+    private $videos;
 
+    /**
+     * @var Collection
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Link", mappedBy="stenography")
+     */
+    private $links;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean", options={"default": false})
+     */
+    private $published;
+
+    public function __construct($published = false)
+    {
+        $this->setPublished($published);
+        $this->videos = new ArrayCollection();
+        $this->links = new ArrayCollection();
+        $this->tags = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -70,30 +74,6 @@ class Stenography
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set url
-     *
-     * @param string $url
-     *
-     * @return Stenography
-     */
-    public function setUrl($url)
-    {
-        $this->url = $url;
-
-        return $this;
-    }
-
-    /**
-     * Get url
-     *
-     * @return string
-     */
-    public function getUrl()
-    {
-        return $this->url;
     }
 
     /**
@@ -121,74 +101,34 @@ class Stenography
     }
 
     /**
-     * @return \DateTime
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * @param \DateTime $title
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-    }
-
-    /**
-     * @return string
-     */
-    public function getUniqueId()
-    {
-        return $this->uniqueId;
-    }
-
-    /**
-     * @param string $uniqueId
-     */
-    public function setUniqueId($uniqueId)
-    {
-        $this->uniqueId = $uniqueId;
-    }
-
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
      * Add tag
      *
-     * @param \AppBundle\Entity\Tag $tag
+     * @param Tag $tag
      *
      * @return Stenography
      */
-    public function addTag(\AppBundle\Entity\Tag $tag)
+    public function addTag(Tag $tag)
     {
-        $this->tags[] = $tag;
+        if (!$this->getTags()->contains($tag)) {
+            $this->getTags()->add($tag);
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tag $tag)
+    {
+        if ($this->getTags()->contains($tag)) {
+            $this->getTags()->removeElement($tag);
+        }
 
         return $this;
     }
 
     /**
-     * Remove tag
-     *
-     * @param \AppBundle\Entity\Tag $tag
-     */
-    public function removeTag(\AppBundle\Entity\Tag $tag)
-    {
-        $this->tags->removeElement($tag);
-    }
-
-    /**
      * Get tags
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getTags()
     {
@@ -196,26 +136,70 @@ class Stenography
     }
 
     /**
-     * Set video
-     *
-     * @param \AppBundle\Entity\Video $video
-     *
-     * @return Stenography
+     * @return Collection
      */
-    public function setVideo(\AppBundle\Entity\Video $video = null)
+    public function getVideos()
     {
-        $this->video = $video;
+        return $this->videos;
+    }
+
+    public function addVideo(Video $video)
+    {
+        if (!$this->getVideos()->contains($video)) {
+            $this->getVideos()->add($video);
+        }
+
+        return $this;
+    }
+
+    public function removeVideo(Video $video)
+    {
+        if ($this->getVideos()->contains($video)) {
+            $this->getVideos()->removeElement($video);
+        }
 
         return $this;
     }
 
     /**
-     * Get video
-     *
-     * @return \AppBundle\Entity\Video
+     * @return boolean
      */
-    public function getVideo()
+    public function isPublished()
     {
-        return $this->video;
+        return $this->published;
+    }
+
+    /**
+     * @param boolean $published
+     */
+    public function setPublished($published)
+    {
+        $this->published = $published;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getLinks()
+    {
+        return $this->links;
+    }
+
+    public function addLink(Link $link)
+    {
+        if (!$this->getLinks()->contains($link)) {
+            $this->getLinks()->add($link);
+        }
+
+        return $this;
+    }
+
+    public function removeLink(Link $link)
+    {
+        if ($this->getLinks()->contains($link)) {
+            $this->getLinks()->removeElement($link);
+        }
+
+        return $this;
     }
 }
