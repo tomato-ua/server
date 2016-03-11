@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * Stenography
@@ -14,6 +15,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Stenography
 {
+    use TimestampableEntity;
+
     /**
      * @var int
      *
@@ -24,34 +27,11 @@ class Stenography
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="url", type="string", length=255)
-     */
-    private $url;
-
-    /**
      * @var \DateTime
      *
      * @ORM\Column(name="eventDate", type="datetime")
      */
     private $eventDate;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="title", type="string", length=255)
-     */
-    private $title;
-
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="uniqueId", type="string", length=255, unique=true)
-     */
-    private $uniqueId;
-
 
     /**
      * @var Collection
@@ -65,9 +45,24 @@ class Stenography
      */
     private $videos;
 
-    public function __construct()
+    /**
+     * @var Collection
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Link", mappedBy="stenography")
+     */
+    private $links;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean", options={"default": false})
+     */
+    private $published;
+
+    public function __construct($published = false)
     {
+        $this->setPublished($published);
         $this->videos = new ArrayCollection();
+        $this->links = new ArrayCollection();
         $this->tags = new ArrayCollection();
     }
 
@@ -79,30 +74,6 @@ class Stenography
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set url
-     *
-     * @param string $url
-     *
-     * @return Stenography
-     */
-    public function setUrl($url)
-    {
-        $this->url = $url;
-
-        return $this;
-    }
-
-    /**
-     * Get url
-     *
-     * @return string
-     */
-    public function getUrl()
-    {
-        return $this->url;
     }
 
     /**
@@ -127,38 +98,6 @@ class Stenography
     public function getEventDate()
     {
         return $this->eventDate;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * @param \DateTime $title
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-    }
-
-    /**
-     * @return string
-     */
-    public function getUniqueId()
-    {
-        return $this->uniqueId;
-    }
-
-    /**
-     * @param string $uniqueId
-     */
-    public function setUniqueId($uniqueId)
-    {
-        $this->uniqueId = $uniqueId;
     }
 
     /**
@@ -217,6 +156,48 @@ class Stenography
     {
         if ($this->getVideos()->contains($video)) {
             $this->getVideos()->removeElement($video);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isPublished()
+    {
+        return $this->published;
+    }
+
+    /**
+     * @param boolean $published
+     */
+    public function setPublished($published)
+    {
+        $this->published = $published;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getLinks()
+    {
+        return $this->links;
+    }
+
+    public function addLink(Link $link)
+    {
+        if (!$this->getLinks()->contains($link)) {
+            $this->getLinks()->add($link);
+        }
+
+        return $this;
+    }
+
+    public function removeLink(Link $link)
+    {
+        if ($this->getLinks()->contains($link)) {
+            $this->getLinks()->removeElement($link);
         }
 
         return $this;

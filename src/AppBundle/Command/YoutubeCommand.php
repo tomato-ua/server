@@ -2,6 +2,8 @@
 
 namespace AppBundle\Command;
 
+use AppBundle\Entity\Video;
+use AppBundle\Manager\VideoManager;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -13,6 +15,11 @@ class YoutubeCommand extends Command
      * @var Registry
      */
     private $doctrine;
+
+    /**
+     * @var VideoManager
+     */
+    private $youtube;
 
     /**
      * @return Registry
@@ -30,6 +37,22 @@ class YoutubeCommand extends Command
         $this->doctrine = $doctrine;
     }
 
+    /**
+     * @return VideoManager
+     */
+    public function getYoutube()
+    {
+        return $this->youtube;
+    }
+
+    /**
+     * @param VideoManager $youtube
+     */
+    public function setYoutube($youtube)
+    {
+        $this->youtube = $youtube;
+    }
+
     public function configure()
     {
         $this
@@ -41,6 +64,25 @@ class YoutubeCommand extends Command
     {
         $em = $this->getDoctrine()->getManager();
 
-//        $stonogs = $em->getRepository('AppBundle:Stenography')->findBy([''];
+        $stenographies = $em->getRepository('AppBundle:Stenography')->findBy(['published' => false]);
+
+        $countVideos = 0;
+        foreach ($stenographies as $stenography) {
+            $videoModels = $this->youtube->getVideos($stenography->getEventDate());
+            foreach ($videoModels['items'] as $model) {
+                if (!$em->getRepository('AppBundle:Video')->findOneBy(['youtubeId' => $model['id']['videoId']])) {
+                    $video = new Video();
+                    $video->setYoutubeId($model['id']['videoId']);
+                    $video->setTitle($model['snippet']['title']);
+                    $video->setStenography($stenography);
+                    $em->persist($video);
+                    $countVideos++;
+                }
+            }
+            $stenography->setPublished(!!$stenography->getVideos()->count());
+        }
+        $em->flush();
+
+        $output->writeln("Imported $countVideos.");
     }
 }

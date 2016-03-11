@@ -12,5 +12,12 @@ services:
         class: AppBundle\Command\YoutubeCommand
         calls:
             - [setDoctrine, ["@doctrine"]]
+            - [setYoutube, ["@youtube"]]
+        tags:
+            - { name: console.command }
+    steno_command:
+        class: AppBundle\Command\ImporterCommand
+        calls:
+            - [setDoctrine, ["@doctrine"]]
         tags:
             - { name: console.command }

@@ -2,7 +2,9 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * Video
@@ -12,6 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Video
 {
+    use TimestampableEntity;
     /**
      * @var int
      *
@@ -29,16 +32,9 @@ class Video
     private $youtubeId;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="created", type="datetime")
-     */
-    private $created;
-
-    /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=255)
+     * @ORM\Column(name="title", type="string", length=191)
      */
     private $title;
 
@@ -54,11 +50,17 @@ class Video
     private $stenography;
 
     /**
-     * @var string
+     * @var boolean
      *
-     * @ORM\Column(name="tagged", type="boolean")
+     * @ORM\Column(name="tagged", type="boolean", options={"default": false})
      */
     private $tagged;
+
+    public function __construct($tagged = false)
+    {
+        $this->tags = new ArrayCollection();
+        $this->setTagged($tagged);
+    }
 
     /**
      * Get id
@@ -94,30 +96,6 @@ class Video
     }
 
     /**
-     * Set created
-     *
-     * @param \DateTime $created
-     *
-     * @return Video
-     */
-    public function setCreated($created)
-    {
-        $this->created = $created;
-
-        return $this;
-    }
-
-    /**
-     * Get created
-     *
-     * @return \DateTime
-     */
-    public function getCreated()
-    {
-        return $this->created;
-    }
-
-    /**
      * Set title
      *
      * @param string $title
@@ -140,22 +118,15 @@ class Video
     {
         return $this->title;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
      * Add tag
      *
-     * @param \AppBundle\Entity\Tag $tag
+     * @param Tag $tag
      *
      * @return Video
      */
-    public function addTag(\AppBundle\Entity\Tag $tag)
+    public function addTag(Tag $tag)
     {
         $this->tags[] = $tag;
 
@@ -165,9 +136,9 @@ class Video
     /**
      * Remove tag
      *
-     * @param \AppBundle\Entity\Tag $tag
+     * @param Tag $tag
      */
-    public function removeTag(\AppBundle\Entity\Tag $tag)
+    public function removeTag(Tag $tag)
     {
         $this->tags->removeElement($tag);
     }
@@ -185,11 +156,11 @@ class Video
     /**
      * Set stenography
      *
-     * @param \AppBundle\Entity\Stenography $stenography
+     * @param Stenography $stenography
      *
      * @return Video
      */
-    public function setStenography(\AppBundle\Entity\Stenography $stenography = null)
+    public function setStenography(Stenography $stenography = null)
     {
         $this->stenography = $stenography;
 
@@ -199,7 +170,7 @@ class Video
     /**
      * Get stenography
      *
-     * @return \AppBundle\Entity\Stenography
+     * @return Stenography
      */
     public function getStenography()
     {
@@ -209,11 +180,11 @@ class Video
     /**
      * Set tagged
      *
-     * @param \bool $tagged
+     * @param boolean $tagged
      *
      * @return Video
      */
-    public function setTagged(bool $tagged)
+    public function setTagged($tagged)
     {
         $this->tagged = $tagged;
 

@@ -17,19 +17,20 @@ class VideoManager
         $this->apiKey = $apiKey;
     }
 
-    public function getVideos()
+    public function getVideos(\DateTime $date)
     {
         $client = new Client(['base_uri' => 'https://www.googleapis.com']);
 
+        dump($date->format('d.m.Y'));
         try {
             $request = $client->get('/youtube/v3/search', [
                 'query' => [
                     'key' => $this->apiKey,
                     'channelId' => 'UCEf6u1pcxUaz3pUWrl5_E5w',
-                    'part' => 'id,snippet,contentDetails,brandingSettings,invideoPromotion',
+                    'part' => 'id,snippet',
                     'order' => 'date',
                     'maxResults' => 50,
-                    'q' => '19.02.2016'
+                    'q' => $date->format('d.m.Y')
                 ]
             ]);
 
