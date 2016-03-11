@@ -35,6 +35,13 @@ class Tag
      */
     private $time;
 
+    /**
+     * @var Sample
+     *
+     * @ORM\ManyToOne(targetEntity="Video", inversedBy="tags")
+     */
+    private $video;
+
 
     /**
      * Get id
@@ -93,5 +100,28 @@ class Tag
     {
         return $this->time;
     }
-}
 
+    /**
+     * Set video
+     *
+     * @param \AppBundle\Entity\Video $video
+     *
+     * @return Tag
+     */
+    public function setVideo(\AppBundle\Entity\Video $video = null)
+    {
+        $this->video = $video;
+
+        return $this;
+    }
+
+    /**
+     * Get video
+     *
+     * @return \AppBundle\Entity\Video
+     */
+    public function getVideo()
+    {
+        return $this->video;
+    }
+}
