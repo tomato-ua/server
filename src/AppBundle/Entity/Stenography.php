@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Video
+ * Stenography
  *
- * @ORM\Table(name="video")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\VideoRepository")
+ * @ORM\Table(name="stenography")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\StenographyRepository")
  */
-class Video
+class Stenography
 {
     /**
      * @var int
@@ -24,23 +24,31 @@ class Video
     /**
      * @var string
      *
-     * @ORM\Column(name="youtubeId", type="string", length=11, unique=true)
+     * @ORM\Column(name="url", type="string", length=255)
      */
-    private $youtubeId;
+    private $url;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created", type="datetime")
+     * @ORM\Column(name="eventDate", type="datetime")
      */
-    private $created;
+    private $eventDate;
 
     /**
-     * @var string
+     * @var \DateTime
      *
      * @ORM\Column(name="title", type="string", length=255)
      */
     private $title;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="uniqueId", type="string", length=255, unique=true)
+     */
+    private $uniqueId;
 
 
     /**
@@ -49,10 +57,9 @@ class Video
     private $tags;
 
     /**
-     * @ORM\OneToOne(targetEntity="Stenography", inversedBy="video")
-     * @ORM\JoinColumn(name="stenography_id", referencedColumnName="id")
+     * @ORM\OneToOne(targetEntity="Video", mappedBy="Stenography")
      */
-    private $stenography;
+    private $video;
 
 
     /**
@@ -66,76 +73,86 @@ class Video
     }
 
     /**
-     * Set youtubeId
+     * Set url
      *
-     * @param string $youtubeId
+     * @param string $url
      *
-     * @return Video
+     * @return Stenography
      */
-    public function setYoutubeId($youtubeId)
+    public function setUrl($url)
     {
-        $this->youtubeId = $youtubeId;
+        $this->url = $url;
 
         return $this;
     }
 
     /**
-     * Get youtubeId
+     * Get url
      *
      * @return string
      */
-    public function getYoutubeId()
+    public function getUrl()
     {
-        return $this->youtubeId;
+        return $this->url;
     }
 
     /**
-     * Set created
+     * Set eventDate
      *
-     * @param \DateTime $created
+     * @param \DateTime $eventDate
      *
-     * @return Video
+     * @return Stenography
      */
-    public function setCreated($created)
+    public function setEventDate($eventDate)
     {
-        $this->created = $created;
+        $this->eventDate = $eventDate;
 
         return $this;
     }
 
     /**
-     * Get created
+     * Get eventDate
      *
      * @return \DateTime
      */
-    public function getCreated()
+    public function getEventDate()
     {
-        return $this->created;
+        return $this->eventDate;
     }
 
     /**
-     * Set title
-     *
-     * @param string $title
-     *
-     * @return Video
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string
+     * @return \DateTime
      */
     public function getTitle()
     {
         return $this->title;
     }
+
+    /**
+     * @param \DateTime $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUniqueId()
+    {
+        return $this->uniqueId;
+    }
+
+    /**
+     * @param string $uniqueId
+     */
+    public function setUniqueId($uniqueId)
+    {
+        $this->uniqueId = $uniqueId;
+    }
+
+
     /**
      * Constructor
      */
@@ -149,7 +166,7 @@ class Video
      *
      * @param \AppBundle\Entity\Tag $tag
      *
-     * @return Video
+     * @return Stenography
      */
     public function addTag(\AppBundle\Entity\Tag $tag)
     {
@@ -179,26 +196,26 @@ class Video
     }
 
     /**
-     * Set stenography
+     * Set video
      *
-     * @param \AppBundle\Entity\Stenography $stenography
+     * @param \AppBundle\Entity\Video $video
      *
-     * @return Video
+     * @return Stenography
      */
-    public function setStenography(\AppBundle\Entity\Stenography $stenography = null)
+    public function setVideo(\AppBundle\Entity\Video $video = null)
     {
-        $this->stenography = $stenography;
+        $this->video = $video;
 
         return $this;
     }
 
     /**
-     * Get stenography
+     * Get video
      *
-     * @return \AppBundle\Entity\Stenography
+     * @return \AppBundle\Entity\Video
      */
-    public function getStenography()
+    public function getVideo()
     {
-        return $this->stenography;
+        return $this->video;
     }
 }
