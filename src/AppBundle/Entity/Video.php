@@ -42,18 +42,16 @@ class Video
      */
     private $title;
 
-
     /**
      * @ORM\OneToMany(targetEntity="Tag", mappedBy="video", cascade={"remove","persist"})
      */
     private $tags;
 
     /**
-     * @ORM\OneToOne(targetEntity="Stenography", inversedBy="video")
-     * @ORM\JoinColumn(name="stenography_id", referencedColumnName="id")
+     * @var Stenography
+     * @ORM\ManyToOne(targetEntity="Stenography", inversedBy="video")
      */
     private $stenography;
-
 
     /**
      * Get id

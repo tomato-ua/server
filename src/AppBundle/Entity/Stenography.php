@@ -2,6 +2,8 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -52,15 +54,22 @@ class Stenography
 
 
     /**
+     * @var Collection
      * @ORM\OneToMany(targetEntity="Tag", mappedBy="video", cascade={"remove","persist"})
      */
     private $tags;
 
     /**
-     * @ORM\OneToOne(targetEntity="Video", mappedBy="Stenography")
+     * @var Collection
+     * @ORM\OneToMany(targetEntity="Video", mappedBy="stenography")
      */
-    private $video;
+    private $videos;
 
+    public function __construct()
+    {
+        $this->videos = new ArrayCollection();
+        $this->tags = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -152,43 +161,35 @@ class Stenography
         $this->uniqueId = $uniqueId;
     }
 
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
     /**
      * Add tag
      *
-     * @param \AppBundle\Entity\Tag $tag
+     * @param Tag $tag
      *
      * @return Stenography
      */
-    public function addTag(\AppBundle\Entity\Tag $tag)
+    public function addTag(Tag $tag)
     {
-        $this->tags[] = $tag;
+        if (!$this->getTags()->contains($tag)) {
+            $this->getTags()->add($tag);
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tag $tag)
+    {
+        if ($this->getTags()->contains($tag)) {
+            $this->getTags()->removeElement($tag);
+        }
 
         return $this;
     }
 
     /**
-     * Remove tag
-     *
-     * @param \AppBundle\Entity\Tag $tag
-     */
-    public function removeTag(\AppBundle\Entity\Tag $tag)
-    {
-        $this->tags->removeElement($tag);
-    }
-
-    /**
      * Get tags
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getTags()
     {
@@ -196,26 +197,28 @@ class Stenography
     }
 
     /**
-     * Set video
-     *
-     * @param \AppBundle\Entity\Video $video
-     *
-     * @return Stenography
+     * @return Collection
      */
-    public function setVideo(\AppBundle\Entity\Video $video = null)
+    public function getVideos()
     {
-        $this->video = $video;
+        return $this->videos;
+    }
+
+    public function addVideo(Video $video)
+    {
+        if (!$this->getVideos()->contains($video)) {
+            $this->getVideos()->add($video);
+        }
 
         return $this;
     }
 
-    /**
-     * Get video
-     *
-     * @return \AppBundle\Entity\Video
-     */
-    public function getVideo()
+    public function removeVideo(Video $video)
     {
-        return $this->video;
+        if ($this->getVideos()->contains($video)) {
+            $this->getVideos()->removeElement($video);
+        }
+
+        return $this;
     }
 }

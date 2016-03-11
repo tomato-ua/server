@@ -8,3 +8,9 @@ services:
         class: AppBundle\Manager\VideoManager
         arguments:
             - "%google_api_key%"
+    youtube_command:
+        class: AppBundle\Command\YoutubeCommand
+        calls:
+            - [setDoctrine, ["@doctrine"]]
+        tags:
+            - { name: console.command }

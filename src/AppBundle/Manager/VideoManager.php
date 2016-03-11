@@ -26,14 +26,14 @@ class VideoManager
                 'query' => [
                     'key' => $this->apiKey,
                     'channelId' => 'UCEf6u1pcxUaz3pUWrl5_E5w',
-                    'part' => 'snippet,id',
+                    'part' => 'id,snippet,contentDetails,brandingSettings,invideoPromotion',
                     'order' => 'date',
                     'maxResults' => 50,
                     'q' => '19.02.2016'
                 ]
             ]);
 
-            return $request->getBody()->getContents();
+            return json_decode($request->getBody()->getContents(), true);
         } catch (\Exception $e) {
             throw new NotFoundHttpException();
         }
