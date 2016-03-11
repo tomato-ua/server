@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * Video
@@ -37,6 +38,13 @@ class Video
      * @ORM\Column(name="title", type="string", length=191)
      */
     private $title;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="startTime", type="datetime")
+     */
+    private $startTime;
 
     /**
      * @ORM\OneToMany(targetEntity="Tag", mappedBy="video", cascade={"remove","persist"})
@@ -200,4 +208,22 @@ class Video
     {
         return $this->tagged;
     }
+
+    /**
+     * @return string
+     */
+    public function getStartTime()
+    {
+        return $this->startTime;
+    }
+
+    /**
+     * @param string $startTime
+     */
+    public function setStartTime(\DateTime $startTime)
+    {
+        $this->startTime = $startTime;
+    }
+
+
 }

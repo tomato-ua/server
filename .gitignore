@@ -14,6 +14,12 @@
 !var/SymfonyRequirements.php
 /vendor/
 /web/bundles/
+/videoresult.txt
+/out/
+/cropped-output.png
+/video.mp4
+/result.txt
+/2.tif
 /node_modules/
 /bower_components/
 /web/js/

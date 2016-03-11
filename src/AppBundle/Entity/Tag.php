@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * Tag
@@ -12,6 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Tag
 {
+
+
     /**
      * @var int
      *
@@ -31,9 +34,16 @@ class Tag
     /**
      * @var int
      *
-     * @ORM\Column(name="time", type="integer")
+     * @ORM\Column(name="time", type="datetime")
      */
     private $time;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="timeOffset", type="integer")
+     */
+    private $timeOffset;
 
     /**
      * @var Sample
@@ -41,6 +51,17 @@ class Tag
      * @ORM\ManyToOne(targetEntity="Video", inversedBy="tags")
      */
     private $video;
+
+    private $startTime;
+
+    /**
+     * Tag constructor.
+     * @param int $timeOffset
+     */
+    public function __construct(\DateTime $timeOffset)
+    {
+        $this->startTime = $timeOffset;
+    }
 
 
     /**
@@ -92,6 +113,32 @@ class Tag
     }
 
     /**
+     * Set time
+     *
+     * @param integer $time
+     *
+     * @return Tag
+     */
+    public function setStringTime($time)
+    {
+
+
+        list($hh, $mm, $ss) = explode(':', $time);
+
+        $this->time = new \DateTime();
+        $this->time->setTime($hh, $mm, $ss);
+
+
+        if ($this->startTime) {
+            $diffInSeconds = $this->time->getTimestamp() - $this->startTime->getTimestamp();
+            $this->setTimeOffset($diffInSeconds);
+        }
+
+
+        return $this;
+    }
+
+    /**
      * Get time
      *
      * @return int
@@ -124,4 +171,26 @@ class Tag
     {
         return $this->video;
     }
+
+    /**
+     * @return int
+     */
+    public function getTimeOffset()
+    {
+        return $this->timeOffset;
+    }
+
+    /**
+     * @param int $timeOffset
+     */
+    public function setTimeOffset($timeOffset)
+    {
+        if ($timeOffset > 0) {
+            $this->timeOffset = $timeOffset;
+        }else{
+            $this->timeOffset = 0;
+        }
+    }
+
+
 }
