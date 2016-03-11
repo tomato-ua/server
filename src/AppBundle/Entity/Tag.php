@@ -31,7 +31,7 @@ class Tag
     /**
      * @var int
      *
-     * @ORM\Column(name="time", type="integer")
+     * @ORM\Column(name="time", type="string")
      */
     private $time;
 
