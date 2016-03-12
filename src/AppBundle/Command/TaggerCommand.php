@@ -58,6 +58,7 @@ class TaggerCommand extends ContainerAwareCommand
         $startTime = new \DateTime($data->time);
 
         $video->setStartTime($startTime);
+        $video->setTagged(true);
 
         $links = $video->getStenography()->getLinks()->getValues();
 

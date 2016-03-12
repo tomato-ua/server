@@ -1,7 +1,7 @@
 <?php
 
 
-//date_default_timezone_set("Europe/Kiev");
+date_default_timezone_set("Europe/Kiev");
 
 
 if (isset($argv['1'])) {
@@ -34,7 +34,7 @@ function parseImages()
         $image->cropImage(90, 26, 50, 405);
         $image->writeImage($outFile);
 
-        $threshold = 20;
+        $threshold = 50;
         exec('convert cropped-output.png -resize 300 -threshold ' . $threshold . '% 2.tif');
 
         `tesseract 2.tif ./result -pcm 7 1>/dev/null 2>&1 `;
