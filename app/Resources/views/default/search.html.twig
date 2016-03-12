@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="centered">
+        <h1 class="centered">Політичний Простір</h1>
+
+        <div id="the-basics">
+            <input class="typeahead" type="text" placeholder="Введіть імя депутата">
+        </div>
+    </div>
+    <div class="player">
+        <div class="youtube">
+            <iframe id="player" width="620" height="430" src="https://www.youtube.com/embed/" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="list">
+            <ul>
+                {% for tag in tags %}
+                    {% if tag.timeOffset != 0 %}
+                        <li data-href="https://www.youtube.com/embed/{{ tag.video.youtubeId }}?start={{ tag.timeOffset - 57 }}&autoplay=1">
+                            <span class="time">{{ tag.time|date('h.i') }}</span> &ndash; {{ tag.video.title }}
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        .centered {
+            text-align: center;
+        }
+    </style>
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}" />
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/main.js') }}"></script>
+{% endblock javascripts %}

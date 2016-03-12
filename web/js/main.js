@@ -44,15 +44,17 @@ $(function () {
         {
             name: 'my-dataset',
             source: substringMatcher(deputats)
-        });
+        }).bind('typeahead:select', function (ev, suggestion) {
 
+        window.location = 'search/'+suggestion;
+    });
 
     $.ajax({
         dataType: "json",
         url: 'http://cors.io/?u=http://www.chesno.org/persons/json/deputies/8/?format=json',
         success: function (data) {
 
-            $.each(data,function (i, deputat) {
+            $.each(data, function (i, deputat) {
 
                 var d = {
                     "shortname": deputat.last_name + ' ' + deputat.first_name[0] + '.' + deputat.second_name[0] + '.',
