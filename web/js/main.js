@@ -6,6 +6,7 @@
 $(function () {
 
     var deputats = [];
+
     $('li[data-href]').click(function (e) {
         var player = $('#player');
         console.info(e);
@@ -14,16 +15,20 @@ $(function () {
 
 
     var substringMatcher = function (strs) {
+
         return function findMatches(q, cb) {
-            var matches= [], substringRegex;
+            var matches, substringRegex;
+
+            // an array that will be populated with substring matches
+            matches = [];
+
+            console.log(q);
 
             substrRegex = new RegExp(q, 'i');
 
             $.each(strs, function (i, str) {
                 if (substrRegex.test(str.full)) {
-                    matches.push(str.full);
-
-
+                    matches.push(str.shortname);
                 }
             });
 
@@ -51,7 +56,7 @@ $(function () {
 
                 var d = {
                     "shortname": deputat.last_name + ' ' + deputat.first_name[0] + '.' + deputat.second_name[0] + '.',
-                    "full": deputat.last_name + ' ' + deputat.first_name + '.' + deputat.second_name + '.'
+                    "full": deputat.last_name + ' ' + deputat.first_name + ' ' + deputat.second_name + ' '
                 };
                 deputats.push(d);
 
