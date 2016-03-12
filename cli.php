@@ -201,7 +201,6 @@ foreach ($my_formats_array as $format) {
     $i++;
 }
 
-
 /* now that we have the array, print the options */
 for ($i = 0; $i < count($avail_formats); $i++) {
 
