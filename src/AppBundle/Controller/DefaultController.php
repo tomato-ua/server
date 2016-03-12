@@ -35,7 +35,7 @@ class DefaultController extends Controller
         $qb = $this->getDoctrine()->getRepository('AppBundle:Tag')
             ->createQueryBuilder('t');
 
-        $tags = $qb->andWhere($qb->expr()->like('t.title', ':word'))
+        $tags = $qb->andWhere('t.title LIKE :word')
             ->setMaxResults(100)
             ->setParameter('word', '%'.$word.'%')
             ->getQuery()
