@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}
+    Виступи депетатів: {{ word }}
+{% endblock title %}
+
 {% block body %}
     <div class="centered">
         <h1 class="centered">Політичний Простір</h1>
@@ -7,6 +11,9 @@
         <div id="the-basics">
             <input class="typeahead" type="text" placeholder="Введіть імя депутата">
         </div>
+    </div>
+    <div class="centered">
+        <h1>{{ block('title') }}</h1>
     </div>
     <div class="player">
         <div class="youtube">
@@ -17,7 +24,7 @@
                 {% for tag in tags %}
                     {% if tag.timeOffset != 0 %}
                         <li data-href="https://www.youtube.com/embed/{{ tag.video.youtubeId }}?start={{ tag.timeOffset - 57 }}&autoplay=1">
-                            <span class="time">{{ tag.time|date('h.i') }}</span> &ndash; {{ tag.video.title }}
+                            <span class="time">{{ tag.time|date('H.i') }}</span> &ndash; {{ tag.video.title }}
                         </li>
                     {% endif %}
                 {% endfor %}

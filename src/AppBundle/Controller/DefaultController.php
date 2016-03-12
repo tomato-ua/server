@@ -42,7 +42,8 @@ class DefaultController extends Controller
             ->getResult();
 
         return $this->render('default/search.html.twig', [
-            'tags' => $tags
+            'tags' => $tags,
+            'word' => $word
         ]);
     }
 }
