@@ -1,19 +1,14 @@
 <?php
 
-// src/AppBundle/Command/GreetCommand.php
-
 namespace AppBundle\Command;
 
-use AppBundle\Entity\Stenography;
 use AppBundle\Entity\Tag;
 use AppBundle\Entity\Video;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DomCrawler\Crawler;
-use Symfony\Component\Validator\Constraints\DateTime;
 
 class TaggerCommand extends ContainerAwareCommand
 {
@@ -24,7 +19,7 @@ class TaggerCommand extends ContainerAwareCommand
     {
         $this
             ->setName('tagger:tag')
-            ->setDescription('run controlpoints generator')
+            ->setDescription('run control points generator')
             ->addArgument(
                 'sample', InputArgument::OPTIONAL, 'If set, generate controls for this sample'
             );
@@ -36,7 +31,7 @@ class TaggerCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
 
-        date_default_timezone_set("Europe/Kiev");
+//        date_default_timezone_set("Europe/Kiev");
 
 
         $rexSafety = "/[\^<,\"@\/\{\}\(\)\*\$%\?=>:\|;#]+/i";
@@ -51,7 +46,7 @@ class TaggerCommand extends ContainerAwareCommand
 
         $video = $em->getRepository('AppBundle:Video')->findOneBy(['tagged' => false]);
 
-        $command = "/usr/local/php5/bin/php {$this->baseDir}/cli.php " . $video->getYoutubeId();
+        $command = "php {$this->baseDir}/cli.php " . $video->getYoutubeId();
 
         `$command`;
 
@@ -102,7 +97,7 @@ class TaggerCommand extends ContainerAwareCommand
             $em->persist($tag);
         }
 
-      $em->flush();
+        $em->flush();
 
     }
 

@@ -5,7 +5,6 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * Video
@@ -42,7 +41,7 @@ class Video
     /**
      * @var string
      *
-     * @ORM\Column(name="startTime", type="datetime")
+     * @ORM\Column(name="startTime", type="datetime", nullable=true)
      */
     private $startTime;
 
@@ -53,7 +52,7 @@ class Video
 
     /**
      * @var Stenography
-     * @ORM\ManyToOne(targetEntity="Stenography", inversedBy="video")
+     * @ORM\ManyToOne(targetEntity="Stenography", inversedBy="videos")
      */
     private $stenography;
 

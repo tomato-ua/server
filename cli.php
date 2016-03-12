@@ -1,7 +1,7 @@
 <?php
 
 
-date_default_timezone_set("Europe/Kiev");
+//date_default_timezone_set("Europe/Kiev");
 
 
 if (isset($argv['1'])) {
@@ -19,7 +19,7 @@ function parseImages()
     sort($files);
 
     $progres = 0;
-    $before =0;
+    $before = 0;
 
     $offset = 0;
 
@@ -34,30 +34,31 @@ function parseImages()
         $image->cropImage(90, 26, 50, 405);
         $image->writeImage($outFile);
 
-        $threshold = 50;
+        $threshold = 20;
         exec('convert cropped-output.png -resize 300 -threshold ' . $threshold . '% 2.tif');
 
         `tesseract 2.tif ./result -pcm 7 1>/dev/null 2>&1 `;
         $result = trim(file_get_contents(__DIR__ . '/result.txt'));
         $offset++;
-        if(strlen($result)==5){
-            $time = substr_replace($result, ':', 2, 1) ;
-            list($hh,$mm) = explode(':',$time);
+        if (strlen($result) == 5) {
+            $time = substr_replace($result, ':', 2, 1);
+            list($hh, $mm) = explode(':', $time);
 
-            if($before<$mm){
+            if ($before < $mm) {
                 $progres++;
-            }else{
+            } else {
                 $progres = 0;
             }
 
-            if($progres>4){
+            if ($progres > 4) {
 
                 $date = new \DateTime();
-                $date->setTime($hh,$mm);
+                $date->setTime($hh, $mm);
 
-                $date->modify('-'.$offset.' min');
+                $date->modify('-' . $offset . ' min');
 
-                file_put_contents(__DIR__.'/videoresult.txt', json_encode(['time'=>$date->format(DateTime::ATOM), 'offset'=>$offset]));
+                file_put_contents(__DIR__ . '/videoresult.txt', json_encode(['time' => $date->format(DateTime::ATOM), 'offset' => $offset]));
+
                 return;
             }
         }
@@ -105,6 +106,7 @@ function curlGet($URL)
     //curl_setopt( $ch , CURLOPT_IPRESOLVE , 'CURLOPT_IPRESOLVE_V6');
     $tmp = curl_exec($ch);
     curl_close($ch);
+
     return $tmp;
 }
 
@@ -126,6 +128,7 @@ function get_location($url)
             return trim(substr($header, 10));
         }
     }
+
     return '';
 }
 
@@ -144,6 +147,7 @@ function get_size($url)
             return trim(substr($header, 16));
         }
     }
+
     return '';
 }
 

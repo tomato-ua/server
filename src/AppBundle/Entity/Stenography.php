@@ -136,7 +136,7 @@ class Stenography
     }
 
     /**
-     * @return Collection
+     * @return Collection|ArrayCollection
      */
     public function getVideos()
     {

@@ -12,8 +12,16 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
+        $video = $this->getDoctrine()->getRepository('AppBundle:Video')
+            ->createQueryBuilder('v')
+            ->join('v.stenography', 's')
+            ->orderBy('s.eventDate',  'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+
         return $this->render('default/index.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),
+            'video' => $video
         ]);
     }
 }

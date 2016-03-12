@@ -8,6 +8,18 @@
         </div>
     </div>
 
+    <div class="youtube">
+        <iframe id="player" width="854" height="480" src="https://www.youtube.com/embed/{{ video.youtubeId }}?start=0&autoplay=1" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <div class="list">
+        <ul>
+            {% for tag in video.tags %}
+                {% if tag.timeOffset != 0 %}
+                    <li data-href="https://www.youtube.com/embed/{{ video.youtubeId }}?start={{ tag.timeOffset }}&autoplay=1"> {{ tag.time|date('H:i') ~ ' ' ~ tag.title }}</li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}
 
 {% block stylesheets %}
@@ -21,7 +33,13 @@
 {% block javascripts %}
     <script src="{{ asset('js/app.js') }}"></script>
     <script>
+        $('li[data-href]').click(function (e) {
+            var player = $('#player');
 
+            console.info(e);
+            player.prop('src', $(e.target).attr('data-href'));
+
+        });
 
         $.get('http://cors.io/?u=http://www.chesno.org/persons/json/deputies/8/?format=json', function (data) {
             organizations = data;

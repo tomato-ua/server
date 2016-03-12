@@ -3,7 +3,6 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * Tag
@@ -13,8 +12,6 @@ use Symfony\Component\Validator\Constraints\DateTime;
  */
 class Tag
 {
-
-
     /**
      * @var int
      *
@@ -46,7 +43,7 @@ class Tag
     private $timeOffset;
 
     /**
-     * @var Sample
+     * @var Video
      *
      * @ORM\ManyToOne(targetEntity="Video", inversedBy="tags")
      */
@@ -187,7 +184,7 @@ class Tag
     {
         if ($timeOffset > 0) {
             $this->timeOffset = $timeOffset;
-        }else{
+        } else {
             $this->timeOffset = 0;
         }
     }
