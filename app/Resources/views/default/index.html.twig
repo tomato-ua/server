@@ -8,26 +8,26 @@
         </div>
     </div>
 
-    <div class="youtube">
-        <iframe id="player" width="854" height="480" src="https://www.youtube.com/embed/{{ video.youtubeId }}?start=0&autoplay=1" frameborder="0" allowfullscreen></iframe>
-    </div>
-    <div class="list">
-        <ul>
-            {% for tag in video.tags %}
-                {% if tag.timeOffset != 0 %}
-                    <li data-href="https://www.youtube.com/embed/{{ video.youtubeId }}?start={{ tag.timeOffset }}&autoplay=1"> {{ tag.time|date('H:i') ~ ' ' ~ tag.title }}</li>
-                {% endif %}
-            {% endfor %}
-        </ul>
+    <div class="player">
+        <div class="youtube">
+            <iframe id="player" width="620" height="430" src="https://www.youtube.com/embed/{{ video.youtubeId }}" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="list">
+            <ul>
+                {% for tag in video.tags %}
+                    {% if tag.timeOffset != 0 %}
+                        <li data-href="https://www.youtube.com/embed/{{ video.youtubeId }}?start={{ tag.timeOffset }}&autoplay=1">
+                            <span class="time">{{ tag.time|date('H:i') }}</span> &ndash; {{ tag.title }}
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
     </div>
 {% endblock %}
 
 {% block stylesheets %}
-<style>
-    .centered {
-        text-align: center;
-    }
-</style>
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}" />
 {% endblock %}
 
 {% block javascripts %}
