@@ -40,8 +40,16 @@ gulp.task('js', function () {
         .pipe(gulp.dest('web/js/'));
 });
 
+gulp.task('fonts', function () {
+    return gulp.src([
+            'web-src/fonts/*'
+        ])
+        .pipe(gulp.dest('web/fonts/'))
+});
+
+
 gulp.task('default', ['clean'], function() {
-    gulp.start('sass', 'js');
+    gulp.start('fonts', 'sass', 'js');
 });
 
 gulp.task('watch', ['default'], function () {

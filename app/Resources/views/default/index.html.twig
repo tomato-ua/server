@@ -16,8 +16,8 @@
             <ul>
                 {% for tag in video.tags %}
                     {% if tag.timeOffset != 0 %}
-                        <li data-href="https://www.youtube.com/embed/{{ video.youtubeId }}?start={{ tag.timeOffset }}&autoplay=1">
-                            <span class="time">{{ tag.time|date('H:i') }}</span> &ndash; {{ tag.title }}
+                        <li data-href="https://www.youtube.com/embed/{{ video.youtubeId }}?start={{ tag.timeOffset - 57 }}&autoplay=1">
+                            <span class="time">{{ tag.time|date('H:i:s') }}</span> &ndash; {{ tag.title }}
                         </li>
                     {% endif %}
                 {% endfor %}
