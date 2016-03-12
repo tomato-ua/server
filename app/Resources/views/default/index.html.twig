@@ -3,11 +3,11 @@
 {% block body %}
     <div class="centered">
         <h1 class="centered">Політичний Простір</h1>
+
         <div id="the-basics">
-            <input class="typeahead" type="text" placeholder="States of USA">
+            <input class="typeahead" type="text" placeholder="Введіть імя депутата">
         </div>
     </div>
-
     <div class="player">
         <div class="youtube">
             <iframe id="player" width="620" height="430" src="https://www.youtube.com/embed/{{ video.youtubeId }}" frameborder="0" allowfullscreen></iframe>
@@ -27,24 +27,15 @@
 {% endblock %}
 
 {% block stylesheets %}
+    <style>
+        .centered {
+            text-align: center;
+        }
+    </style>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}" />
 {% endblock %}
 
 {% block javascripts %}
     <script src="{{ asset('js/app.js') }}"></script>
-    <script>
-        $('li[data-href]').click(function (e) {
-            var player = $('#player');
-
-            console.info(e);
-            player.prop('src', $(e.target).attr('data-href'));
-
-        });
-
-        $.get('http://cors.io/?u=http://www.chesno.org/persons/json/deputies/8/?format=json', function (data) {
-            organizations = data;
-//            console.info(organizations);
-        });
-    </script>
-
+    <script src="{{ asset('js/main.js') }}"></script>
 {% endblock javascripts %}
