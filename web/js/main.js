@@ -7,11 +7,16 @@ $(function () {
 
     var deputats = [];
 
-    $('li[data-href]').click(function (e) {
-        var player = $('#player');
-        console.info(e);
-        player.prop('src', $(e.target).attr('data-href'));
+    $.each( $('li[data-href]'), function(index,el){
+
+        $(el).click(function (e) {
+            var player = $('#player');
+            console.info(e);
+            player.prop('src', $(el).attr('data-href'));
+        });
+
     });
+
 
 
     var substringMatcher = function (strs) {
@@ -46,7 +51,7 @@ $(function () {
             source: substringMatcher(deputats)
         }).bind('typeahead:select', function (ev, suggestion) {
 
-        window.location = 'search/'+suggestion;
+        window.location = '/search/'+suggestion;
     });
 
     $.ajax({
