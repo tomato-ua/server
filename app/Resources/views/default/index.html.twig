@@ -17,7 +17,7 @@
                 {% for tag in video.tags %}
                     {% if tag.timeOffset != 0 %}
                         <li data-href="https://www.youtube.com/embed/{{ video.youtubeId }}?start={{ tag.timeOffset - 57 }}&autoplay=1">
-                            <span class="time">{{ tag.time|date('H:i:s') }}</span> &ndash; {{ tag.title }}
+                            <span class="time">{{ tag.time|date('H:i:s') }}</span> &ndash; {{ tag.title|split('.')|join('. ')|trim|title }}
                         </li>
                     {% endif %}
                 {% endfor %}
@@ -27,11 +27,6 @@
 {% endblock %}
 
 {% block stylesheets %}
-    <style>
-        .centered {
-            text-align: center;
-        }
-    </style>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}" />
 {% endblock %}
 

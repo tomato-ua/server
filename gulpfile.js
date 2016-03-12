@@ -47,9 +47,15 @@ gulp.task('fonts', function () {
         .pipe(gulp.dest('web/fonts/'))
 });
 
+gulp.task('images', function () {
+    return gulp.src([
+            'web-src/images/*'
+        ])
+        .pipe(gulp.dest('web/images/'))
+});
 
 gulp.task('default', ['clean'], function() {
-    gulp.start('fonts', 'sass', 'js');
+    gulp.start('fonts', 'images', 'sass', 'js');
 });
 
 gulp.task('watch', ['default'], function () {

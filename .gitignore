@@ -25,6 +25,7 @@
 /web/css/
 /web/js/
 /web/fonts/
+/web/images/
 /web-src/scss/*.css
 /web-src/scss/*.css.map
 !/web-src/scss/*.scss
