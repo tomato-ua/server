@@ -13,7 +13,7 @@ var gulp         = require('gulp'),
     util         = require('gulp-util');
 
 gulp.task('clean', function () {
-    del(['sass', 'js']);
+    del(['sass', 'js', 'fonts', 'images']);
 });
 
 gulp.task('sass', function () {
@@ -54,8 +54,15 @@ gulp.task('images', function () {
         .pipe(gulp.dest('web/images/'))
 });
 
+gulp.task('js-custom', function () {
+    return gulp.src([
+            'web-src/js/*.js'
+        ])
+        .pipe(gulp.dest('web/js/'))
+});
+
 gulp.task('default', ['clean'], function() {
-    gulp.start('fonts', 'images', 'sass', 'js');
+    gulp.start('fonts', 'images', 'sass', 'js', 'js-custom');
 });
 
 gulp.task('watch', ['default'], function () {

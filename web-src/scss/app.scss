@@ -44,6 +44,9 @@ footer {
         background-size: auto;
     }
 }
+#the-basics {
+    padding-bottom: 150px;
+}
 
 .container {
     width: 940px;
@@ -64,10 +67,41 @@ footer {
     padding: 10px;
     color: #4a4a4a;
 }
-
+.top {
+    margin: 245px 0 0;
+}
 .tt-menu {
     width: 100%;
     border: 1px solid #F0F0F0;
+}
+.down-btn {
+    border: 1px solid #298fc8;
+    border-radius: 3px;
+    font-size: 18px;
+    color: #298fc8;
+    width: 300px;
+    margin: 0 auto;
+    padding: 15px 0;
+    margin-bottom:  60px;
+    background-image: url("../images/arrow_down_button_home.svg");
+    background-size: auto;
+    background-repeat: no-repeat;
+    background-position: 270px;
+
+    &:hover {
+        background-color: #298fc8;
+        color: white;
+        background-image: url("../images/arrow_down_button_home_white.svg");
+    }
+}
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #e8e8e8;
+    margin: 1em 0;
+    padding: 0;
+    margin-bottom: 200px;
 }
 
 .typeahead {
@@ -76,10 +110,11 @@ footer {
     border: 1px solid #298FC8;
     border-radius: 3px;
     font-size: 18px;
+    padding: 0 12px;
 }
 
 .player {
-    margin: 20px 0;
+    margin: 20px 0 100px;
     .youtube {
         float: left;
         width: 620px;

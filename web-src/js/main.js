@@ -76,16 +76,10 @@ $(function () {
 
     $(document).ready(function () {
         $('.down-btn').click(function () {
-            $('.down-btn').hide();
+            //$('.down-btn').hide();
             $('html, body').animate({
                 scrollTop: $(".player").offset().top
             }, 1000);
-        });
-        $(window).scroll(function(){
-            if($(this).scrollTop() <= 900){
-                $('.down-btn').show();
-
-            }
         });
     });
 });
